@@ -1,0 +1,101 @@
+Google Doc at:
+https://docs.google.com/document/d/1EPBNVsUJx6WWuz6FqrS2MC2y16xYFno3s8uHd2nBRPU/edit
+request permission to view
+
+Takeaways-
+
+
+
+Feb 20th:
+Authentication1/Layout2/Helpers1
+cookies are accessible through “session[]”
+most common param :user_id
+Adding classes to the ApplicationController allows them to be called in all  ‘sub’controllers. This is because they inherit from ApplicationController
+making a function private (via declaring private before def) only allows the function to be called from within that method or class
+Functions within the ApplicationHelper are to help views
+ should output HTML.
+are called in .html.erb with  <%== functionName %>
+the double == allows html to be rendered properly as compared to as a literal string
+The difference between Authenticated and Authorized
+Authenticated just means that “rails” knows the users “name tag”
+Authorized means that rails knows who the user is AND the user has had it’s permission checked.
+A new visitor w/o cookie is not authenticated
+A return visitor w/cookie is authenticated
+A logged in user is authenticated and has a level of authorization.
+An admin is a logged in user with heightened authorization.
+Default layouts can be called from a function by declaring at start of controller
+EG:
+class  HomeController < ApplicationController
+layout 'homepage'
+(Here the ‘homepage’ file should be located in views/layouts)
+
+Feb 18th
+File Naming
+Naming Help:
+Model Naming Convention
+
+Table: orders
+Class: Order
+File: /app/models/order.rb
+Primary Key: id
+Foreign Key: customer_id
+Link Tables: items_orders
+
+
+Controller Naming Convention
+
+Class: OrdersController
+File: /app/controllers/orders_controller.rb
+Layout: /app/layouts/orders.html.erb
+
+View Naming Convention
+
+Helper: /app/helpers/orders_helper.rb
+Helper Module: OrdersHelper
+Views: /app/views/orders/… (list.html.erb for example)
+
+Tests Naming Convention
+
+Unit: /test/unit/order_test.rb
+Functional: /test/functional/orders_controller_test.rb
+Fixtures: /test/fixtures/orders.yml
+
+
+Feb 16th
+Database CREATION (Database Backend)
+#when creating rails app specify database (default mysql)
+  rails new ‘name’ -d postgresql
+
+# Edit database.yml
+  host:localhost
+  username: postgres
+  password: password
+
+# include ‘pg’ in gemfile
+
+# create a model
+  $: touch app/model/modelname.rb
+    ~~~~
+      class Name < ActiveRecord::Base
+        #Add attr_accessor :name,:name,:name...
+      end
+    ~~~~
+1) Create the database
+  $: rake db:create
+2) Migrate
+  $: rails g migration create_’name’_table
+    -> This creates a file where you make the table
+  ~~~~EXAMPLE~~~~
+    def change
+        create_table :mountain do |t|
+                 t.string :name
+                 t.text :image
+                 t.float :height
+                t.text :location
+                 t.timestamps
+          end
+    end
+  ~~~~
+3) Rake
+  $: rake db:migrate
+4) Check
